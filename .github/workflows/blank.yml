@@ -5,6 +5,12 @@ on:
     branches:
       - main
 
+env:
+  ALIYUN_REGISTRY: ${{ secrets.ALIYUN_REGISTRY }}
+  ALIYUN_NAME_SPACE: ${{ secrets.ALIYUN_NAME_SPACE }}
+  ALIYUN_REGISTRY_USER: ${{ secrets.ALIYUN_REGISTRY_USER }}
+  ALIYUN_REGISTRY_PASSWORD: ${{ secrets.ALIYUN_REGISTRY_PASSWORD }}
+
 jobs:
   build-and-push:
     name: Build and Push Docker image
@@ -17,14 +23,14 @@ jobs:
       uses: docker/login-action@v3
       with:
         registry: ${{ env.ALIYUN_REGISTRY }}
-        username: ${{ secrets.ALIYUN_REGISTRY_USER }}
-        password: ${{ secrets.ALIYUN_REGISTRY_PASSWORD }}
+        username: ${{ env.ALIYUN_REGISTRY_USER }}
+        password: ${{ env.ALIYUN_REGISTRY_PASSWORD }}
 
-    - name: Pull Docker image
-      run: docker pull ${{ secrets.ALIYUN_NAME_SPACE }}/gitlab/gitlab-ce:latest
+    - name: Pull Docker image from GitLab
+      run: docker pull gitlab/gitlab-ce:latest
 
     - name: Tag Docker image
-      run: docker tag ${{ secrets.ALIYUN_NAME_SPACE }}/gitlab/gitlab-ce:latest ${{ env.ALIYUN_REGISTRY }}/${{ secrets.ALIYUN_NAME_SPACE }}/gitlab/gitlab-ce:latest
+      run: docker tag gitlab/gitlab-ce:latest ${{ env.ALIYUN_REGISTRY }}/${{ env.ALIYUN_NAME_SPACE }}/gitlab-ce:latest
 
     - name: Push Docker image to Aliyun
-      run: docker push ${{ env.ALIYUN_REGISTRY }}/${{ secrets.ALIYUN_NAME_SPACE }}/gitlab/gitlab-ce:latest
+      run: docker push ${{ env.ALIYUN_REGISTRY }}/${{ env.ALIYUN_NAME_SPACE }}/gitlab-ce:latest
