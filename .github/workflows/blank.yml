@@ -34,7 +34,7 @@ jobs:
 
     - name: Log in to Aliyun Container Registry
       run: |
-        echo "${{ secrets.ALIYUN_REGISTRY_PASSWORD }}" | docker login -u "${{ secrets.ALIYUN_REGISTRY_USER }}" "$ALIYUN_REGISTRY"
+        docker login -u $ALIYUN_REGISTRY_USER -p $ALIYUN_REGISTRY_PASSWORD $ALIYUN_REGISTRY
 
     - name: Pull and Push Docker image to Aliyun
       run: |
