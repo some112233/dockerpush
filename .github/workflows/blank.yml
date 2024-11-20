@@ -15,15 +15,6 @@ jobs:
     steps:
     - name: Checkout Code
       uses: actions/checkout@v2
-      
-    - name: Print all environment variables
-      run: |
-        echo "ALIYUN_REGISTRY: ${{ secrets.ALIYUN_REGISTRY }}"
-        echo "ALIYUN_NAME_SPACE: ${{ secrets.ALIYUN_NAME_SPACE }}"
-        echo "ALIYUN_REGISTRY_USER: ${{ secrets.ALIYUN_REGISTRY_USER }}"
-        # 出于安全考虑，不建议打印密码或敏感信息
-        # echo "ALIYUN_REGISTRY_PASSWORD: ${{ secrets.ALIYUN_REGISTRY_PASSWORD }}"
-
     - name: Maximize build space
       uses: easimon/maximize-build-space@master
       with:
@@ -41,12 +32,12 @@ jobs:
 
     - name: Log in to Aliyun Container Registry
       run: |
-        echo "${{ secrets.ALIYUN_REGISTRY_PASSWORD }}" | docker login -u "${{ secrets.ALIYUN_REGISTRY_USER }}" -p "${{ secrets.ALIYUN_REGISTRY_PASSWORD }}" "${{ secrets.ALIYUN_REGISTRY }}"
+        echo cwm147258 | docker login -u aliyun2303696073 -p cwm147258 crpi-lssazn1jp8ho54qv.cn-guangzhou.personal.cr.aliyuncs.com
 
     - name: Pull and Push Docker image to Aliyun
       run: |
         docker pull gitlab/gitlab-ce:latest
         echo "Aliyun Registry: ${{ secrets.ALIYUN_REGISTRY }}"
         echo "Aliyun Name Space: ${{ secrets.ALIYUN_NAME_SPACE }}"
-        docker tag gitlab/gitlab-ce:latest "${{ secrets.ALIYUN_REGISTRY }}/${{ secrets.ALIYUN_NAME_SPACE }}/gitlab-ce:latest"
-        docker push "$ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/gitlab-ce:latest"
+        docker tag "gitlab/gitlab-ce:latest crpi-lssazn1jp8ho54qv.cn-guangzhou.personal.cr.aliyuncs.com/docker-imges-c/gitlab-ce:latest"
+        docker push "crpi-lssazn1jp8ho54qv.cn-guangzhou.personal.cr.aliyuncs.com/docker-imges-c/gitlab-ce:latest"
