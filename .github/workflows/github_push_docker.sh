@@ -14,7 +14,7 @@ docker pull $IMAGES
 
 
 # 为镜像打标签，准备推送到阿里云仓库
-docker tag $IMAGES "$ALIYUN_REGISTRY/docker-imges-c/$IMAGES"
+docker tag $IMAGES "$ALIYUN_REGISTRY/docker-imges-c/gitlab-ce:v1"
 
 # 推送镜像到阿里云仓库
-docker push "$ALIYUN_REGISTRY/docker-imges-c/$IMAGES"
+docker push "$ALIYUN_REGISTRY/docker-imges-c/gitlab-ce:v1"
