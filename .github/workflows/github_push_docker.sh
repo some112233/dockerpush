@@ -15,5 +15,5 @@ do
     # 为镜像打标签，准备推送到阿里云仓库
     docker tag "${pull_registry}/${image}" "${push_registry}/${image%:*}"
     # 推送镜像到阿里云仓库
-    docker push "${push_registry}/${image%:*}"
+    docker push "${ALIYUN_REGISTRY}/docker-imges-c/gitlab/gitlab-ce:latest"
 done
