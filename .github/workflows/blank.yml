@@ -11,6 +11,7 @@ env:
   ALIYUN_REGISTRY_USER: "${{ secrets.ALIYUN_REGISTRY_USER }}"
   ALIYUN_REGISTRY_PASSWORD: "${{ secrets.ALIYUN_REGISTRY_PASSWORD }}"
 
+
 jobs:
   build-and-push:
     name: Build and Push Docker image to Aliyun
@@ -43,5 +44,5 @@ jobs:
         docker pull gitlab/gitlab-ce:latest
         echo "Aliyun Registry: $ALIYUN_REGISTRY"
         echo "Aliyun Name Space: $ALIYUN_NAME_SPACE"
-        docker tag gitlab/gitlab-ce:latest "$ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/gitlab-ce:latest"
+        docker tag gitlab/gitlab-ce:latest "${{ secrets.ALIYUN_REGISTRY }}/${{ secrets.ALIYUN_NAME_SPACE }}/gitlab-ce:latest"
         docker push "$ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/gitlab-ce:latest"
