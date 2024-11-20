@@ -32,7 +32,7 @@ jobs:
 
     - name: Log in to Aliyun Container Registry
       run: |
-        echo cwm147258 | docker login -u aliyun2303696073 -p cwm147258 crpi-lssazn1jp8ho54qv.cn-guangzhou.personal.cr.aliyuncs.com
+        echo "${{ secrets.ALIYUN_REGISTRY_PASSWORD }}" | docker login -u "${{ secrets.ALIYUN_REGISTRY_USER }}" "$ALIYUN_REGISTRY" --password-stdin
 
     - name: Pull and Push Docker image to Aliyun
       run: |
