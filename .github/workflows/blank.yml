@@ -5,11 +5,7 @@ on:
   push:
     branches: [main]
 
-env:
-  ALIYUN_REGISTRY: "${{ secrets.ALIYUN_REGISTRY }}"
-  ALIYUN_NAME_SPACE: "${{ secrets.ALIYUN_NAME_SPACE }}"
-  ALIYUN_REGISTRY_USER: "${{ secrets.ALIYUN_REGISTRY_USER }}"
-  ALIYUN_REGISTRY_PASSWORD: "${{ secrets.ALIYUN_REGISTRY_PASSWORD }}"
+
 
 
 jobs:
@@ -19,6 +15,14 @@ jobs:
     steps:
     - name: Checkout Code
       uses: actions/checkout@v2
+      
+    - name: Print all environment variables
+      run: |
+        echo "ALIYUN_REGISTRY: ${{ secrets.ALIYUN_REGISTRY }}"
+        echo "ALIYUN_NAME_SPACE: ${{ secrets.ALIYUN_NAME_SPACE }}"
+        echo "ALIYUN_REGISTRY_USER: ${{ secrets.ALIYUN_REGISTRY_USER }}"
+        # 出于安全考虑，不建议打印密码或敏感信息
+        # echo "ALIYUN_REGISTRY_PASSWORD: ${{ secrets.ALIYUN_REGISTRY_PASSWORD }}"
 
     - name: Maximize build space
       uses: easimon/maximize-build-space@master
