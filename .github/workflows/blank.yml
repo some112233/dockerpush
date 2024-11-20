@@ -1,19 +1,17 @@
 name: Docker Build
 
 on: [push]
-env:
-  ALIYUN_REGISTRY_USER: "${{ secrets.ALIYUN_REGISTRY_USER }}"
-  ALIYUN_REGISTRY_PASSWORD: "${{ secrets.ALIYUN_REGISTRY_PASSWORD }}"
-  ALIYUN_REGISTRY: "${{ secrets.ALIYUN_REGISTRY }}"
+
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
-      - name: Log in to Docker Hub
-        run: docker login -u $ALIYUN_REGISTRY_USER -p $ALIYUN_REGISTRY_PASSWORD $ALIYUN_REGISTRY;
       - name: Pull and Push Docker images
         run: |
           bash ./.github/workflows/github_push_docker.sh
-
+        env:
+          ALIYUN_REGISTRY_USER: ${{ secrets.ALIYUN_REGISTRY_USER }}
+          ALIYUN_REGISTRY_PASSWORD: ${{ secrets.ALIYUN_REGISTRY_PASSWORD }}
+          ALIYUN_REGISTRY: "crpi-lssazn1jp8ho54qv.cn-guangzhou.personal.cr.aliyuncs.com/docker-imges-c"
