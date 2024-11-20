@@ -6,10 +6,10 @@ on:
       - main
 
 env:
-  ALIYUN_REGISTRY: crpi-lssazn1jp8ho54qv.cn-guangzhou.personal.cr.aliyuncs.com/docker-imges-c/docker-images
-  ALIYUN_NAME_SPACE: docker-imges-c
-  ALIYUN_REGISTRY_USER: aliyun2303696073
-  ALIYUN_REGISTRY_PASSWORD: cwm147258
+  ALIYUN_REGISTRY: "${{ secrets.ALIYUN_REGISTRY }}"
+  ALIYUN_NAME_SPACE: "${{ secrets.ALIYUN_NAME_SPACE }}"
+  ALIYUN_REGISTRY_USER: "${{ secrets.ALIYUN_REGISTRY_USER }}"
+  ALIYUN_REGISTRY_PASSWORD: "${{ secrets.ALIYUN_REGISTRY_PASSWORD }}"
 
 jobs:
   build-and-push:
@@ -19,15 +19,20 @@ jobs:
     - name: Check out the repo
       uses: actions/checkout@v2
 
+    - name: Set up jq
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y jq
+
     - name: Log in to Aliyun Container Registry
       run: |
-        echo ${{ secrets.ALIYUN_REGISTRY_PASSWORD }} | docker login ${{ env.ALIYUN_REGISTRY }} -u ${{ env.ALIYUN_REGISTRY_USER }} --password-stdin
+        echo "${{ secrets.ALIYUN_REGISTRY_PASSWORD }}" | jq -rn --arg password "${{ secrets.ALIYUN_REGISTRY_PASSWORD }}" '{password: $password}' | docker login ${{ env.ALIYUN_REGISTRY }} -u ${{ env.ALIYUN_REGISTRY_USER }} --password-stdin
 
     - name: Pull Docker image
-      run: docker pull ${{ env.ALIYUN_NAME_SPACE }}/gitlab/gitlab-ce:latest
+      run: docker pull ${{ env.ALIYUN_NAME_SPACE }}/git/gitlab-ce:latest
 
     - name: Tag Docker image
-      run: docker tag ${{ env.ALIYUN_NAME_SPACE }}/gitlab/gitlab-ce:latest ${{ env.ALIYUN_REGISTRY }}/${{ env.ALIYUN_NAME_SPACE }}/gitlab/gitlab-ce:latest
+      run: docker tag ${{ env.ALIYUN_NAME_SPACE }}/git/gitlab-ce:latest ${{ env.ALIYUN_REGISTRY }}/${{ env.ALIYUN_NAME_SPACE }}/git/gitlab-ce:latest
 
     - name: Push Docker image to Aliyun
-      run: docker push ${{ env.ALIYUN_REGISTRY }}/${{ env.ALIYUN_NAME_SPACE }}/gitlab/gitlab-ce:latest
+      run: docker push ${{ env.ALIYUN_REGISTRY }}/${{ env.ALIYUN_NAME_SPACE }}/git/gitlab-ce:latest
