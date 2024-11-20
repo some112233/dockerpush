@@ -12,5 +12,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Log in to Docker Hub
-        run: docker login -u $ALIYUN_REGISTRY_USER -p $ALIYUN_REGISTRY_PASSWORD $ALIYUN_REGISTRY; bash github_push_docker.sh
+        run: docker login -u $ALIYUN_REGISTRY_USER -p $ALIYUN_REGISTRY_PASSWORD $ALIYUN_REGISTRY;
+      - name: Pull and Push Docker images
+        run: |
+          bash ./github_push_docker.sh
 
