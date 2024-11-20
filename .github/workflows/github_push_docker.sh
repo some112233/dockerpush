@@ -6,7 +6,7 @@ ALIYUN_REGISTRY_PASSWORD="${ALIYUN_REGISTRY_PASSWORD}"
 ALIYUN_REGISTRY="${ALIYUN_REGISTRY}"
 
 # 登录到阿里云容器镜像服务
-echo "$ALIYUN_REGISTRY_PASSWORD" | docker login -u "$ALIYUN_REGISTRY_USER" "$ALIYUN_REGISTRY" --password-stdin
+docker login -u $ALIYUN_REGISTRY_USER -p $ALIYUN_REGISTRY_PASSWORD $ALIYUN_REGISTRY
 
 # 拉取 GitLab CE 镜像
 docker pull busybox:unstable-uclibc
