@@ -41,6 +41,8 @@ jobs:
     - name: Pull and Push Docker image to Aliyun
       run: |
         docker pull gitlab/gitlab-ce:latest
+        echo "Aliyun Registry: ${ALIYUN_REGISTRY}"
+        echo "Aliyun Name Space: ${ALIYUN_NAME_SPACE}"
         # 注意这里没有额外的斜杠
         docker tag gitlab/gitlab-ce:latest "${{ secrets.ALIYUN_REGISTRY }}/${{ secrets.ALIYUN_NAME_SPACE }}/gitlab-ce:latest"
         docker push "${{ secrets.ALIYUN_REGISTRY }}/${{ secrets.ALIYUN_NAME_SPACE }}/gitlab-ce:latest"
