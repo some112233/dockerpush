@@ -9,10 +9,11 @@ ALIYUN_REGISTRY="${ALIYUN_REGISTRY}"
 echo "$ALIYUN_REGISTRY_PASSWORD" | docker login -u "$ALIYUN_REGISTRY_USER" "$ALIYUN_REGISTRY" --password-stdin
 
 # 拉取 GitLab CE 镜像
-docker pull gitlab/gitlab-ce:latest
+docker pull busybox:unstable-uclibc
+
 
 # 为镜像打标签，准备推送到阿里云仓库
-docker tag gitlab/gitlab-ce:latest "$ALIYUN_REGISTRY/docker-imges-c/gitlab-ce:latest"
+docker tag busybox:unstable-uclibc "$ALIYUN_REGISTRY/docker-imges-c/busybox:unstable-uclibc"
 
 # 推送镜像到阿里云仓库
-docker push "$ALIYUN_REGISTRY/docker-imges-c/gitlab-ce:latest"
+docker push "$ALIYUN_REGISTRY/docker-imges-c/busybox:unstable-uclibc"
