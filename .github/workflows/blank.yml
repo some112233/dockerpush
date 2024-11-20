@@ -15,5 +15,5 @@ jobs:
         run: docker login -u $ALIYUN_REGISTRY_USER -p $ALIYUN_REGISTRY_PASSWORD $ALIYUN_REGISTRY;
       - name: Pull and Push Docker images
         run: |
-          bash ./github_push_docker.sh
+          bash github_push_docker.sh
 
