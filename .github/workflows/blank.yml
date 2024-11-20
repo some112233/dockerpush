@@ -13,7 +13,7 @@ env:
 
 jobs:
   build-and-push:
-    name: Build and Push Docker image
+    name: Build and Push Docker image to Aliyun
     runs-on: ubuntu-latest
     steps:
     - name: Checkout Code
@@ -36,10 +36,10 @@ jobs:
 
     - name: Log in to Aliyun Container Registry
       run: |
-        echo ${{ secrets.ALIYUN_REGISTRY_PASSWORD }} | docker login ${{ env.ALIYUN_REGISTRY }} -u ${{ env.ALIYUN_REGISTRY_USER }} --password-stdin
+        docker login -u "${{ secrets.ALIYUN_REGISTRY_USER }}" -p "${{ secrets.ALIYUN_REGISTRY_PASSWORD }}" "${{ secrets.ALIYUN_REGISTRY }}"
 
     - name: Pull and Push Docker image to Aliyun
       run: |
         docker pull gitlab/gitlab-ce:latest
-        docker tag gitlab/gitlab-ce:latest ${{ env.ALIYUN_REGISTRY }}/${{ env.ALIYUN_NAME_SPACE }}/gitlab-ce:latest
-        docker push ${{ env.ALIYUN_REGISTRY }}/${{ env.ALIYUN_NAME_SPACE }}/gitlab-ce:latest
+        docker tag gitlab/gitlab-ce:latest "${{ secrets.ALIYUN_REGISTRY }}/${{ secrets.ALIYUN_NAME_SPACE }}/gitlab-ce:latest"
+        docker push "${{ secrets.ALIYUN_REGISTRY }}/${{ secrets.ALIYUN_NAME_SPACE }}/gitlab-ce:latest"
