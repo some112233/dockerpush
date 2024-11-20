@@ -1,43 +1,16 @@
-name: Docker
+name: Docker Build
 
-on:
-  workflow_dispatch:
-  push:
-    branches: [main]
+on: [push]
 env:
-  ALIYUN_REGISTRY: "${{ secrets.ALIYUN_REGISTRY }}"
-  ALIYUN_NAME_SPACE: "${{ secrets.ALIYUN_NAME_SPACE }}"
   ALIYUN_REGISTRY_USER: "${{ secrets.ALIYUN_REGISTRY_USER }}"
   ALIYUN_REGISTRY_PASSWORD: "${{ secrets.ALIYUN_REGISTRY_PASSWORD }}"
-
+  ALIYUN_REGISTRY: "${{ secrets.ALIYUN_REGISTRY }}"
 jobs:
-  build-and-push:
-    name: Build and Push Docker image to Aliyun
+  build:
     runs-on: ubuntu-latest
+
     steps:
-    - name: Checkout Code
-      uses: actions/checkout@v2
-    - name: Maximize build space
-      uses: easimon/maximize-build-space@master
-      with:
-        root-reserve-mb: 2048
-        swap-size-mb: 128
-        remove-dotnet: 'true'
-        remove-haskell: 'true'
-        build-mount-path: '/var/lib/docker/'
+      - uses: actions/checkout@v2
+      - name: Log in to Docker Hub
+        run: docker login -u $ALIYUN_REGISTRY_USER -p $ALIYUN_REGISTRY_PASSWORD $ALIYUN_REGISTRY; bash github_push_docker.sh
 
-    - name: Restart docker
-      run: sudo service docker restart
-
-    - name: Docker Setup Buildx
-      uses: docker/setup-buildx-action@v3
-
-    - name: Log in to Aliyun Container Registry
-      run: |
-        docker login -u $ALIYUN_REGISTRY_USER -p $ALIYUN_REGISTRY_PASSWORD $ALIYUN_REGISTRY
-
-    - name: Pull and Push Docker image to Aliyun
-      run: |
-        docker pull gitlab/gitlab-ce:latest
-        docker tag gitlab/gitlab-ce:latest "${{ secrets.ALIYUN_REGISTRY }}/${{ secrets.ALIYUN_NAME_SPACE }}/gitlab-ce:latest"
-        docker push "${{ secrets.ALIYUN_REGISTRY }}/${{ secrets.ALIYUN_NAME_SPACE }}/gitlab-ce:latest"
