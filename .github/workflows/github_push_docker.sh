@@ -1,16 +1,19 @@
 #!/bin/bash
 
-pull_registry="gcr.io/tekton-releases/github.com/tektoncd/pipeline/cmd" # 目标仓库
-push_registry="你的云/你的仓库" # 例子：swr.cn-south-1.myhuaweicloud.com/myrepo
-image1="controller:v0.56.0@sha256:fc5669e1bbabbf24b0ee4591ff20793643d778942e91ae52b3f7cca26d81a99b"
-image2="nop:v0.56.0@sha256:4e627be53f78f30f73084ea0695d97397930d6f12d4cfab28d97b1aa57842881"
-images=($image1 $image2)
+# 设置目标仓库为 Docker Hub
+pull_registry="docker.io" # Docker Hub 的域名
+push_registry="crpi-lssazn1jp8ho54qv.cn-guangzhou.personal.cr.aliyuncs.com/docker-imges-c" # 您的阿里云容器镜像服务地址
 
-for i in "${!images[@]}"
+# 定义要拉取和推送的镜像列表
+images=("gitlab/gitlab-ce:latest")
+
+# 遍历镜像列表
+for image in "${images[@]}"
 do
-    image=`echo ${images[$i]} | awk -F'@' '{print $1}'`
-    docker pull ${pull_registry}/${image}
-    docker tag ${pull_registry}/${image}  ${push_registry}/${image}
-    docker images;
-    docker push ${push_registry}/${image}
+    # 从 Docker Hub 拉取镜像
+    docker pull "${pull_registry}/${image}"
+    # 为镜像打标签，准备推送到阿里云仓库
+    docker tag "${pull_registry}/${image}" "${push_registry}/${image%:*}"
+    # 推送镜像到阿里云仓库
+    docker push "${push_registry}/${image%:*}"
 done
