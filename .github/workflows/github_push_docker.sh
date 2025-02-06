@@ -4,7 +4,7 @@
 ALIYUN_REGISTRY_USER="${ALIYUN_REGISTRY_USER}"
 ALIYUN_REGISTRY_PASSWORD="${ALIYUN_REGISTRY_PASSWORD}"
 ALIYUN_REGISTRY="${ALIYUN_REGISTRY}"
-IMAGES="busybox:latest"
+IMAGES="koderover.tencentcloudcr.com/koderover-public/plutus-vendor:3.2.1"
 
 # 登录到阿里云容器镜像服务
 docker login -u $ALIYUN_REGISTRY_USER -p $ALIYUN_REGISTRY_PASSWORD $ALIYUN_REGISTRY
@@ -14,7 +14,7 @@ docker pull $IMAGES
 
 
 # 为镜像打标签，准备推送到阿里云仓库
-docker tag $IMAGES "$ALIYUN_REGISTRY/docker-imges-c/busybox:latest"
+docker tag $IMAGES "$ALIYUN_REGISTRY/docker-imges-c/plutus-vendor:3.2.1"
 
 # 推送镜像到阿里云仓库
-docker push "$ALIYUN_REGISTRY/docker-imges-c/busybox:latest"
+docker push "$ALIYUN_REGISTRY/docker-imges-c/plutus-vendor:3.2.1"
